@@ -1,0 +1,42 @@
+.game{
+    color: white;
+    position: absolute;
+    width: auto;
+    border: none;
+    height: auto;
+   
+    
+}
+
+
+
+#pauseButton{
+    margin:2%;
+}
+#resumeButton{
+
+   
+    transform: translate(-50%,-50%);
+    
+    left: 50%;
+    
+    top: 53%;
+    
+    transform-origin: center;
+    
+    animation: infinite pulse 1.5s;
+}
+@keyframes pulse {
+
+	50%{transform: translate(-50%,-50%)  scale(0.7);}
+	
+}
+
+#homeButton{
+  
+    transform: translate(-50%,-50%);
+    
+    left: 50%;
+    
+    top: 35%;
+}

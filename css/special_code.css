@@ -1,0 +1,169 @@
+
+  :root {
+    --main-color: white;
+    --accent-color: dodgerblue;
+}
+
+
+#singular-form button,
+.container>#singular-form>#input-container>input {
+font-size: 170%;
+    font-family: "LuckiestGuy";
+    font-weight: bold;
+   
+
+}
+
+.container {
+    display:none;
+    border: 5px solid black;
+    position: absolute;
+    width: 190px;
+    height: 60px;
+    top:100px;
+    -webkit-text-stroke: 0.5px black;
+   left:50%;
+    transform:translate(-50%,-50%);
+    background-color: var(--main-color);
+    border-radius: 3rem;
+    overflow: hidden;
+    transition: width .4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.container>#singular-form {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: var(--main-color);
+}
+
+.container>#singular-form button {
+    outline: none;
+    border-radius: 3rem;
+    cursor: pointer;
+  
+}
+
+
+.container>#singular-form>button#trigger {
+    width: 100%;
+    color: var(--accent-color);
+    background-color: transparent;
+    z-index: 3;
+  
+}
+
+.container>#singular-form>#input-container {
+    z-index: 2;
+    cursor: pointer;
+}
+
+.container>#singular-form>#input-container>input {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    background-color: var(--main-color);
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    padding-left: 20px;
+   
+    z-index: 2;
+    opacity: 0;
+    transform: scale(0);
+    transition: all .4s ease .4s;
+}
+
+.container>#singular-form>#input-container>button {
+    position: absolute;
+    
+    right: 0px;
+    
+    height: 100%;
+    background-color: var(--accent-color);
+    color: var(--main-color);
+    opacity: 0;
+    transform: scale(0);
+    transition: all .4s ease .4s;
+}
+
+.container>#singular-form>#success
+ {
+     background-color: rgb(21, 228, 21);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(245, 245, 28);
+    font-weight: bold;
+    z-index: 1;
+    font-size: 160%;
+    text-align: center;
+}
+
+.container>#singular-form>#wrong
+{
+    font-size: 160%;
+    text-align: center;
+    background-color: red;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   color: yellow;
+   font-weight: bold;
+   z-index: 1;
+   
+}
+
+.container>#singular-form>button#trigger,
+.container>#singular-form>#input-container,
+.container>#singular-form>#success,
+.container>#singular-form>#wrong
+ {
+    
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: scale(0);
+    opacity: 0;
+}
+
+.container>#singular-form>button#trigger {
+    transition: all .4s ease;
+}
+
+.container>#singular-form>#input-container {
+    transform: scale(1);
+    opacity: 1;
+    transition: all .4s ease .4s;
+}
+
+.container>#singular-form>#success,
+.container>#singular-form>#wrong
+ {
+    transition: all .2s ease .4s;
+}
+
+.container>#singular-form>button#trigger.shown,
+.container>#singular-form>#input-container.shown,
+.container>#singular-form>#success.shown,
+.container>#singular-form>#wrong.shown,
+.container>#singular-form>#input-container>button.shown,
+.container>#singular-form>#input-container>input.shown {
+    transform: scale(1);
+    opacity: 1;
+}
+#wrong{
+    top:1px;
+}
+#sub{
+  border: none;
+    z-index: 3;
+    
+}
+#trigger{
+    border:none;
+  
+}
+

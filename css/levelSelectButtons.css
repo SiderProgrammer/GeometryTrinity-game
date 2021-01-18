@@ -1,0 +1,18 @@
+.levelSelect{
+    position: absolute;
+    top: 93%;
+    transform: translate(-50%,-50%) ;
+    -webkit-text-stroke: 1px black;
+}
+#jumpLastLevel{
+    left:50%;
+   
+}
+
+#jumpLastPageRight{
+    left:75%;
+}
+
+#jumpLastPageLeft{
+    left:25%;
+}

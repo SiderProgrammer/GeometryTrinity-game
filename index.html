@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8" />
+    <title> Geometry trinity </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,
+  	        maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui" />
+  			
+  			<meta name="full-screen" content="yes" />
+      <meta name="screen-orientation" content="portrait" />
+    
+
+<link rel="stylesheet" type="text/css" href="css/special_code.css">
+<link rel="stylesheet" type="text/css" href="css/expbar.css">
+<link rel="stylesheet" type="text/css" href="css/icono-buttons.css">
+<link rel="stylesheet" type="text/css" href="css/options_toggle.css">
+<link rel="stylesheet" type="text/css" href="css/exit-button.css">
+<link rel="stylesheet" type="text/css" href="css/levelSelectButtons.css">
+<link rel="stylesheet" type="text/css" href="css/game.css">
+<link rel="stylesheet" type="text/css" href="css/info.css">
+<link rel="preload" as="image" href="tutorial_1.svg">
+<link rel="preload" as="image" href="tutorial_2.svg">
+<link rel="preload" as="image" href="tutorial_3.svg">
+<link rel="preload" as="image" href="tutorial_4.svg">
+<link rel="preload" as="image" href="triangletip_2.svg">
+  <style>
+
+@font-face {
+    font-family: "LuckiestGuy";
+    src: url("LuckiestGuy.ttf") format('truetype');
+    
+}
+    body{
+      margin: 0px;
+      padding: 0px;
+  		overflow:hidden;    
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-text-size-adjust: none;
+      -moz-text-size-adjust: none;
+      -ms-text-size-adjust: none;
+      text-size-adjust: none;
+    
+    }
+ 
+*:focus{
+  outline:none;
+  
+}
+#menu,#options,#shop,#info,#levelSelect,#game{
+  display:none;
+  font-family: "LuckiestGuy";
+
+ 
+}
+
+
+.tableRows {
+     border-collapse: collapse;
+    padding-left: 5px;
+}
+
+#claim{
+ animation: infinite resize 1.5s;
+}
+@keyframes resize {
+	50%{transform: translateX(-50%)  scale(0.85);}
+	
+}
+#glow{
+  animation: infinite rotate 5s linear
+}
+@keyframes rotate {
+
+  50%{transform:scale(0.6) rotate(180deg)}
+  100%{transform:scale(0.8) rotate(360deg)}
+}
+    </style>
+
+                 <script src="scripts/phaser.min.js"></script>
+
+                 <script src="scripts/tutorial.js"></script>
+                 <script src="scripts/tutorial_2.js"></script>
+                 <script src="scripts/tutorial_3.js"></script>
+                 
+             <script src="scripts/javaHolder.js"></script>
+          <script src="scripts/skins.js"></script>
+    <script src = "scripts/specialCode.js"></script>
+      <script src ="scripts/meta.js"></script>
+        <script src ="scripts/powers.js"></script>
+          <script src="scripts/lose.js"></script>
+            <script src ="scripts/win.js"></script>
+              <script src ="scripts/progressBars.js"></script>
+
+<script src="scripts/levelOptions.js"></script>
+<script src="scripts/floorExtension_v1.js"></script>
+  <script src='scripts/addToGameManager.js'></script>
+    <script src="scripts/levelBasics.js"></script>
+         <script src ="scripts/levelSelect.js"></script>
+            <script src="scripts/obstacle.js"></script>
+            
+<script src="scripts/floor.js"></script>
+    <script src  ="scripts/shop.js"></script>
+      <script src="scripts/helper.js"></script>
+        <script src="scripts/character.js"></script>
+          
+            <script src="scripts/loader.js"></script>
+<script src="scripts/boot.js"></script>
+    <script src='scripts/htmlHelper.js'></script>
+      <script src="scripts/maps.js"></script>
+        <script src="scripts/shapeChangeHandler.js"></script>
+          <script src="scripts/options.js"></script>
+          <script src="scripts/gameOptions.js"></script>
+          <script src="scripts/menu.js"></script>
+<script src="scripts/animations.js"></script>
+<script src="scripts/info.js"></script>
+<script src="scripts/specialShop.js"></script>
+
+
+
+
+</head>
+<body >
+  <div id="tip" style="display:none;position:absolute;z-index:999999;width: 100%; height: 100%;    background: rgb(155,155,250);">
+    <img style="height: 100%;width: 100%;">
+    
+    <img id="tipOkButton" src="ok-button.svg" style="
+    position: absolute;
+    top: 87%;
+    left: 50%;
+    transform: translateX(-50%);
+    width:70px;
+">
+  </div>
+
+  <div id="tutorial" style="display:none;position:absolute;z-index:999999;width: 100%; height: 100%;    background: rgb(155,155,250);">
+
+    <img src="ok-button.svg" style="
+   position: absolute;
+top: 20px;
+    right: 20px;
+    width:45px;
+    display:none;
+    
+">
+<img src="exit-button.svg" style="
+position: absolute;
+top: 20px;
+    left: 20px;
+
+">
+<img src="exit-button.svg" style="
+position: absolute;
+top: 20px;
+    right: 20px;
+    transform: scaleX(-1);
+ 
+">
+
+
+<img style="width:100%; height: 100%;">
+  </div>
+
+  <div id="endGame" style="position: absolute;color: white;font-size: 20px;top: 10px;width: 100%;font-family: LuckiestGuy;justify-content: center;display: none;">
+    
+    <div id="table" style="/* align-items: center; *//* justify-content: center; *//* display: inherit; */ display: none; ">
+    <div style="text-align: center;display: grid;">
+      <span style="color: orange;font-size: 25px;-webkit-text-stroke: 1px black;">top 3 players</span>
+      <span style="color: crimson;
+      /* padding-top: 5px; */
+      -webkit-text-stroke: 1px black;">hero level</span> 
+    </div>
+    <div style="display: block;/* align-items: center; *//* justify-content: center; */width: min-content;/* margin-right: 0px; *//* padding: 0; */margin: auto;padding-bottom: 10px;">
+    <div style="
+    border: 3px solid black;
+    border-radius: 10px;
+    /* width: 60%; */
+    background: rgba(0,0,0,0.5);
+
+">
+    <table id="heroLevelLeaderboard" style="display: block;padding: 2px;/* width: 100%; */">
+      <tbody>
+
+        <tr style=" color: gold;">
+   <td class="tableRows">1</td>
+    <td class="tableRows">3X</td> 
+    <td class="tableRows"></td>
+        </tr>
+
+        <tr style="
+    color: silver;
+">
+   <td class="tableRows" style="
+    color: silver;
+">2</td> <td class="tableRows">XXX</td> <td class="tableRows">XXX</td>
+  </tr>
+  
+  <tr style="
+    color: sandybrown;
+">
+   <td class="tableRows" style="
+    color: sandybrown;
+">3</td> <td class="tableRows">XXX</td> <td class="tableRows">XXX</td>
+  </tr>
+
+  
+    </tbody>
+  </table>
+    <div></div></div>
+
+  <div style="
+    text-align: center;
+    padding-top: 50px;
+"><span style="color: crimson;
+/* padding-top: 5px; */
+-webkit-text-stroke: 1px black;">unlocked levels </span></div>
+<div style="
+       border: 3px solid black;
+    border-radius: 10px;
+    /* width: 60%; */
+    background: rgba(0,0,0,0.5);
+">
+    <table id="unlockedLevelsLeaderboard" style="display: block;width: 100%;padding: 2px;">
+     
+
+    <tbody><tr style="
+    color: gold;
+">
+<td class="tableRows">1</td> <td class="tableRows">333</td> <td class="tableRows">XXX</td>
+</tr>
+
+<tr style="
+    color: silver;
+">
+<td class="tableRows">2</td> <td class="tableRows">XXX</td> <td class="tableRows">XXX</td>
+</tr>
+
+<tr style="
+    color: sandybrown;
+">
+<td class="tableRows">3</td> <td class="tableRows">XXX</td> <td class="tableRows">XXX</td>
+</tr>
+
+  </tbody></table>
+        </div>
+</div>
+</div>
+<div id="earnings" style="
+    font-size: 35px;
+
+    display: none;
+    text-align: center;
+    color: #34c2e3;
+    background: rgba(0,0,0,0.5);
+    border-radius: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
+    -webkit-text-stroke: 1px black;
+    border: 3px solid black;
+" id="earnings">
+    <span style="color: cornflowerblue;">exp <span style="color:white">+ 0%</span></span>
+<div style="    align-items: center;
+justify-content: center;
+text-align: center;
+display: inline-flex;">
+
+  <img src="coin-icon.svg " style="    margin-right: 5px;">
+    <span id="moneyEarned" style="color:white">+ 0</span>
+    </div>
+    </div>
+
+
+    <div style="
+    justify-content: center;
+    align-items: center;
+    display: flex;
+">
+<div style="
+    padding-top:30px;
+    width: 200px;
+    height: 20px;
+   
+    transform: translateX();
+">
+        <div style="
+    background: maroon;
+    width: 100%;
+    border: 3px solid black;
+    height: 100%;
+    border-radius: 50px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    /* transform: translateX(50%); */
+    /* text-align: center; */
+    display: flex;
+    box-shadow: -0px 2px 5px black, 0px 2px black;
+">
+            <span id="levelCompletePercent" style="font-size: 15px;color: white;/* height: 100%; */">completed 0%</span>
+    </div><div id="levelCompleteBar" style="height: 100%;background: crimson;border-radius: 50px;margin-top: -23px;text-align: right;width: 25%;margin-left: 3px;color: white;">
+<img src="flag-icon.svg" style="
+    position: absolute;
+    margin-top: -26px;
+    margin-left: -4px;
+    
+"></i>
+</div>
+    
+    </div>
+    </div>
+
+    </div>
+</div>
+
+     
+
+  <img id="ranking"  src="podium.png"style="position: absolute; display:none;left:10px;top:85px;    transform: translateY(-35%);">
+  <div id="rankingDiv" style=
+  "display: none;
+  top: 50%;
+  z-index: 99999;
+  background-color: rgba(0, 0, 0, 0.75);
+  height: 30%;
+  position: absolute;
+  transform: translate(-50%, -50%) scale(1.2);
+  border: 3px solid white;
+  width: 60%;
+  left: 50%;
+  border-radius: 25px;
+
+">
+
+    <div id="rankingButtons" style="display: block; position: absolute; text-align: center; left: 50%; top: 50%; transform: translate(-50%, -50%);width: 100%;">
+      <img src="heroLevRank.svg">
+      <img src="unlockedLevRank.svg">
+      <img src="exitB.svg" id="close">
+    </div>
+    
+</div>
+  
+    <div id="expbar" class="progress-bar  blue stripess" >
+
+      <span style="width: 0%; position: absolute; "></span> 
+      <div style="position: absolute;width: 100%;height: 100%; text-align: center;align-items: center;
+      display: inline-grid;">
+
+        <p id="expPercent"
+style=" margin: 0px; color: white; width: 100%;font-size: 130%;font-family:LuckiestGuy;">0%</p>
+      </div>
+    
+  </div>
+
+  <img src="ok-button.svg" id="okayButton" style="display:none;left: 50%; top: 81.1475%;position: absolute;z-index:999999;transform: translateX(-50%);">
+
+  <div id="presentDiv" style="display: none;z-index: 99999;background-color: rgba(255,255, 255, 0.55);width: 100%;height: 100%;position: absolute;justify-content: center;align-items: center;">
+    <img src="img/backgrounds/giftBG.png" style="
+    position: absolute;
+">
+    <div style="color: palegoldenrod;font-family: LuckiestGuy;align-items: center;display: inline-grid;justify-content: center;text-align: center;/*! grid-template-rows: 50px 50px 50px; *//*! grid-template-columns: 250px; */margin-top: -50px;z-index:50;">
+      <p style="margin-bottom: 3px;color: yellow;-webkit-text-stroke: 0.5px black;">( random given )</p>
+      <p style="font-size: 40px;-webkit-text-stroke: 0.5px black;margin-top: 0;/*! padding-bottom: 150px; */">reward</p>
+  
+      <div style="height:70px;position: relative;/*! display: ruby-base; */">
+        <img id="glow" src="img/general/glow.png" style="   margin-top: -110px;
+        /* top: -60px; */
+        width: 300px;">
+        <img id="rewardSkinImage" style="position: absolute;transform: translateX(-50%);left: 50%;">
+      </div>
+     
+      <p id="reward" style="font-size: 30px;color: yellow; /*! margin-top: -30px; */margin-bottom: 0px;margin-bottom: -30px;-webkit-text-stroke: 0.5px black;">Skin ( rare drop )</p>
+      <img src="img/general/openedPresentAura.png" style="/*! margin-left: -30px; *//* padding-bottom: 20px; */left: 50%;position: absolute;transform: translateX(-50%);/* padding-top: 10px; *//* margin-left: -40px; */">
+      <img src="img/general/openedPresent.png" style="/*! margin-left: -30px; */padding-bottom: 20px;left: 50%;position: relative;transform: translateX(-50%) scale(0.8);margin-left: 10px;padding-top: 40px;">
+     
+     <img src="claim-button.png" id="claim" style="left: 50%;position: relative;transform: translateX(-50%);">
+       </div>
+  
+</div>
+  <div id="moneyDiv" style="/*! width: 100px; */height: 40px;display:none;font-family: LuckiestGuy;font-size: 25px;position: absolute;/*! left: 30px; */top: 20px;/*! width: max-content; *//*! width: 80px; */right: 20px;">
+    <div id="square" style="border-radius: 50px;background: rgba(0,0,0,0.4);color: white;height: 100%;/*! align-content: center; */align-items: center;/*! text-align: center; *//*! justify-content: center; */display: flex;">
+      <img src="coin-icon.svg " id="dollar"  style="margin-left: -5px"></span>
+    
+    <span id="money" style="color: white;padding-left: 5px;text-align: left;padding-right: 15px;">0</span></div>
+  </div>
+
+  <div id="heroLevelDiv" style="display: none;/*! width: 100px; */height: 40px;font-family: LuckiestGuy;font-size: 25px;position: absolute;/*! left: 30px; */top: 20px;/*! width: max-content; *//*! width: 80px; */right: 200px;">
+    <div style="border-radius: 50px;background: rgba(0,0,0,0.4);color: white;height: 100%;/*! align-content: center; */align-items: center;/*! text-align: center; *//*! justify-content: center; */display: flex;">
+
+      <img src="level-icon.svg" style="margin-left: -15px;transform: scale(1.1);">
+    <span id="heroLevel" style="color: white;padding-left: 5px;text-align: left;padding-right: 15px;">1</span></div>
+   
+  </div>
+
+
+  <div class="levelprogress-bar orange stripes" id="levelbar">
+    <span style="width: 0%"></span>
+</div>
+
+<div id="game" style="text-align: center;">
+  <span id="meters" style="position: absolute;color: white;font-size: 45px;transform: translateX(-50%); top:10px;-webkit-text-stroke: black 1px;display: inline-grid;"></span>
+  
+<img class="game"src="pauseButton.png" id="pauseButton" style="z-index:999;">
+<img class="game"src="playButton.png" id="resumeButton"style="z-index:999;">
+<img class="game" src="homeButton.png" id="homeButton"style="z-index:999;">
+</div>
+
+<div id="shop">
+  <div id="specialShopInfo" style="display: none;position: absolute; left: 20%;">
+    <div style="/*! width: 100px; */height: 40px;/*! display:none; */font-family: LuckiestGuy;font-size: 25px;/*! position: absolute; *//*! left: 30px; *//*! top: 20px; *//*! width: max-content; *//*! width: 80px; *//*! right: 20px; */padding-bottom: 5px;">
+      <div style="border-radius: 50px;background: rgba(0,0,0,0.4);color: white;height: 100%;/*! align-content: center; */align-items: center;/*! text-align: center; *//*! justify-content: center; */display: flex;">
+        <img src="coin-icon.svg " id="dollar"  style="margin-left: -5px"></span>
+      
+      <span id="shMoney" style="color: white;padding-left: 5px;text-align: left;padding-right: 15px;">50000</span></div>
+    </div>
+  
+    <div  style="margin-left: 10px;/*! display: none; *//*! width: 100px; */height: 40px;font-family: LuckiestGuy;font-size: 25px;/*! position: absolute; *//*! left: 30px; *//*! top: 20px; *//*! width: max-content; *//*! width: 80px; *//*! right: 200px; */">
+      <div style="border-radius: 50px;background: rgba(0,0,0,0.4);color: white;height: 100%;/*! align-content: center; */align-items: center;/*! text-align: center; *//*! justify-content: center; */display: flex;">
+  
+        <img src="level-icon.svg" style="margin-left: -15px;transform: scale(1.1);">
+      <span id="shLevel" style="color: white;padding-left: 5px;text-align: left;padding-right: 15px;">40</span></div>
+    </div>
+ 
+  </div>
+
+
+  <img src="lock.svg" id="notEnough" style="left: 76.0112%; top: 82.4356%; position: absolute;transform: scale(0.8); ">
+  <div id="skinRequirements" style="display: none;/*! width: 100%; */ position: absolute;transform: scale(0.8);top: 470px;left: 30px;/*! width: 150px; */transform-origin: left;">
+    <div id="moneyReqDiv" style="/*! width: 100px; */height: 40px;/*! display:none; */font-family: LuckiestGuy;font-size: 25px;/*! position: absolute; *//*! left: 30px; *//*! top: 20px; *//*! width: max-content; *//*! width: 80px; *//*! right: 20px; */padding-bottom: 5px;">
+      <div style="border-radius: 50px;background: rgba(0,0,0,0.4);color: white;height: 100%;/*! align-content: center; */align-items: center;/*! text-align: center; *//*! justify-content: center; */display: flex;">
+        <img src="coin-icon.svg " id="dollar"  style="margin-left: -5px"></span>
+      
+      <span id="moneyReq" style="color: white;padding-left: 5px;text-align: left;padding-right: 15px;">1</span></div>
+    </div>
+  
+    <div id="heroReqLevelDiv" style="margin-left: 10px;/*! display: none; *//*! width: 100px; */height: 40px;font-family: LuckiestGuy;font-size: 25px;/*! position: absolute; *//*! left: 30px; *//*! top: 20px; *//*! width: max-content; *//*! width: 80px; *//*! right: 200px; */">
+      <div style="border-radius: 50px;background: rgba(0,0,0,0.4);color: white;height: 100%;/*! align-content: center; */align-items: center;/*! text-align: center; *//*! justify-content: center; */display: flex;">
+  
+        <img src="level-icon.svg" style="margin-left: -15px;transform: scale(1.1);">
+      <span id="heroLevelReq" style="color: white;padding-left: 5px;text-align: left;padding-right: 15px;">1</span></div>
+    </div>
+    </div>
+
+  <img src="exit-button.svg"  id="shopExitButton">
+
+</div>
+
+<div id="levelSelect">
+  <img src="jumpLastLevel.svg" class="levelSelect" id="jumpLastLevel"></i>
+
+  <img src="jumpLastPageRight.svg" class="levelSelect " id="jumpLastPageRight" ></i>
+  <img src="jumpLastPageLeft.svg"  class="levelSelect " id="jumpLastPageLeft"></i>
+</div>
+
+<div id="info" style="position: absolute; width: 90%; height: 100%;left:5%;" >
+
+  <p class ="infoText" id="gameVersion">version 1.0</p>
+  <p class="infoText" id ="amateurs">The game was made by two people</p>
+
+
+  <p class="infoText"id="leaveComment">leave a comment what could be done better and your suggestions</p>
+  <p class="infoText" id="updates">further updates are planned</p>
+
+
+  <div>
+
+    <a class ="infoText link" id="rateUsLink" 
+    href="https://play.google.com/store/apps/details?id=com.pip.geometrytrinity"
+      target="_blank"> If you liked this game please rate us :)</a>
+  
+    <p class="infoText" id="contact">contact  ~ pip.companyinternational @gmail.com</p>
+  </div>
+  
+ 
+</div>
+
+  <div id ="menu">
+    <div id="dailyRewardTimeDiv" style="position: absolute; top:60px;left:20px; color: white;/*! width: 100px; */text-align: center;/*! height: 30px; */align-items: center;display: inline-grid;background-color: rgba(0, 0, 0,0.4);border-radius: 50px;padding: 7px;">
+      <span id="dailyRewardTime" style="font-size: 80%;">getting server time ...</span>
+    </div>
+
+</div>
+
+<img src="exit-button.svg"  id="exitButton">
+
+<div id="options">
+ 
+  <div class="container" id ='container'>
+    <form id="singular-form">
+        <button class="shown" type="button" id="trigger">Use code</button>
+        <div id="input-container">
+            <input type="text" placeholder="code">
+            <button type="button" id ="sub">Check</button>
+        </div>
+        <div id="success">Valid code</div>
+        <div id="wrong" >Wrong code</div>
+    </form>
+
+
+</div>
+<div id="toggles" style="position: fixed; top: 140px;left:50%;transform: translateX(-50%);width: 100%;">
+
+  <div id='toggleShapeChange' style="    height: 100px;">
+
+  <h1 class="options-info " id="figureController">in-game shape map</h1>
+<div class="optionsToggleClass" style="display: flex; justify-content: center;    margin-left: 70px;">
+
+  <input type="checkbox" id="unchecked" class="cbx hidden" />
+  <label for="unchecked" class="lbl shape "></label>
+  <img src="img/controler.png" style="margin-left: 20px;">
+</div>
+
+ 
+</div>
+
+<div id='toggleMusicChange'  style="    height: 100px;">
+
+<h1 class="options-info " id="musicSound">MUSIC</h1>
+<div class="optionsToggleClass" style="display: flex; justify-content: center;">
+  <input type="checkbox" id="unchecked2" class="cbx hidden" />
+  <label for="unchecked2" class="lbl music "></label>
+</div>
+
+    
+  </div>
+
+
+  <div id='toggleSoundChange'  style="    height: 100px;">
+    
+    <h1 class="options-info " id="sound">SOUND</h1>
+    <div class="optionsToggleClass" style="display: flex; justify-content: center;">
+      <input type="checkbox" id="unchecked4" class="cbx hidden" />
+      <label for="unchecked4" class="lbl sound "></label>
+    </div>   
+      </div>
+
+
+
+  <div id='togglePerformanceChange'  style="    height: 100px;">
+  <h1 class="options-info " id="performanceBoost">PERFORMANCE BOOST</h1>
+  <div class="optionsToggleClass" style="display: flex; justify-content: center;">
+    <input type="checkbox" id="unchecked3" class="cbx hidden" />
+    <label for="unchecked3" style="margin-left: 70px;" class="lbl performance "></label>
+    <img src="infoButton.png" id="boostInfo" style=" margin-left: 20px; font-size: 50px;color:white">
+  </div>
+  
+    </div>
+
+</div>
+</div>
+</body>
+</html>

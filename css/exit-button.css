@@ -1,0 +1,16 @@
+#exitButton{
+position: absolute;
+display:none;
+left:10px;
+top:10px;
+}
+
+
+#shopExitButton{
+    position: absolute;
+    left:10px;
+    top:10px;
+
+    }
+    
+    
